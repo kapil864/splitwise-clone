@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from starlette import status
 
+from dummy import dummy_router
+
 DEBUG = True
 
 app = FastAPI(
@@ -9,6 +11,8 @@ app = FastAPI(
     debug=DEBUG,
     docs_url="/documentation"
 )
+
+app.include_router(dummy_router)
 
 
 @app.get('/')

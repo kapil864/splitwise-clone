@@ -1,11 +1,29 @@
 services:
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    container_name: splitwise-mongodb
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=user
+      - MONGODB_INITDB_ROOT_PASSWORD=pass
+    volumes:
+      - mongodb-dev:/data/db
+
   app:
-    build: 
+    build:
       context: .
-    container_name: splitwise-backend
+    container_name: splitwise-service
     volumes:
       - ./app:/app
     ports:
       - 8000:8000
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+      - DB_PASS=pass
+      - DB_USER=user
+    depends_on:
+      - mongodb
     command: >
       sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+
+volumes:
+  mongodb-dev:
