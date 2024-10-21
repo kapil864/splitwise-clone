@@ -1,0 +1,19 @@
+FROM python:3.12.7-alpine3.20
+LABEL maintainer="kapil864"
+
+COPY ./requirements.txt /tmp/requirements.txt
+COPY ./app /app
+
+RUN python -m venv /venv && \
+    /venv/bin/pip install --upgrade pip && \
+    /venv/bin/pip install -r /tmp/requirements.txt && \
+    rm -rf /tmp && \
+    adduser \
+        --disables-password \
+        --no-create-home \
+        joker-user
+
+ENV PATH="/venv/bin:$PATH"
+USER joker-user
+
+    

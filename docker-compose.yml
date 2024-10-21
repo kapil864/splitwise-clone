@@ -1,0 +1,11 @@
+services:
+  app:
+    build: 
+      context: .
+    container_name: splitwise-backend
+    volumes:
+      - ./app:/app
+    ports:
+      - 8000:8000
+    command: >
+      sh -c "fastapi dev main.py"
